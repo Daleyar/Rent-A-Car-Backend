@@ -3,11 +3,7 @@ const config = require("config");
 
 const connectDb = () => {
   mongoose
-    .connect(config.get("mongoURI"), {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    })
+    .connect(config.get("mongoURI"))
     .then(() => console.log("Connected to MongoDb..."))
     .catch((err) => {
       console.log(`Could not connect to MongoDb. Error: ${err}`);

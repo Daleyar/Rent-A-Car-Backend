@@ -10,15 +10,15 @@ const licenseDetails = new mongoose.Schema({
         required: true,
     },
     dob: {
-        type: String,
+        type: Date,
         required: true
-    },
-    issuingCountry: {
-        type: String,
-        required: true,
     },
     expirationDate: {
         type: Date,
+        required: true,
+    },
+    issuingCountry: {
+        type: String,
         required: true,
     }
 });

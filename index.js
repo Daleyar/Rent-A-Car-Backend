@@ -1,4 +1,5 @@
 const connectDb = require("./db/db");
+const carRouter = require("./routes/car")
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -7,6 +8,8 @@ connectDb();
 
 app.use(cors());
 app.use(express.json());
+app.use('/images', express.static('images'));
+app.use('/api', carRouter)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
