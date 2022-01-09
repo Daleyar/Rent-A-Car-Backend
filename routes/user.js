@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const { User, validateUser, validateLogin} = require("../models/User");
+const { User, validateUser, validateLogin} = require("../models/user");
 const bcrypt = require("bcrypt");
 
 /* Registers New User */
+/*Tested Successfully*/
 router.post("/user/register", async (req, res) => {
     try {
         const { error } = validateUser(req.body);
         if(error) return res.status(400).send(error.details[0].message);
 
-        const user = await User.findOne({email: req.body.email});
+        let user = await User.findOne({email: req.body.email});
         if(user) 
             return res.status(400).send(`Email ${req.body.email} already exists!`);
 
@@ -32,6 +33,7 @@ router.post("/user/register", async (req, res) => {
 });
 
 /* User Login */
+/*Tested Successfully*/
 router.post("/user/login", async (req, res) => {
     try {
         const { error } = validateLogin(req.body);
