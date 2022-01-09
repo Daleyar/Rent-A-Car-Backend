@@ -36,4 +36,13 @@ router.post("/car", upload.single('carImage'), async (req, res) => {
     }
 });
 
+router.get("/cars", async (req, res) => {
+    try {
+      const cars = await Car.find();
+      return res.send(cars);
+    }catch (error) {
+        return res.status(500).send(`Internal Server Error: ${error}`);
+    }
+  });
+
 module.exports = router;

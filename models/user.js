@@ -29,11 +29,6 @@ const userSchema = mongoose.Schema({
         minLength: 8,
         maxLength: 255,
     },
-    licenseDetails: {
-        type: mongoose.Schema.Types.Array,
-        ref: "License",
-        default: [],
-},
 });
 
 userSchema.methods.generateAuthToken = function () {
