@@ -4,7 +4,7 @@ const {Rental} = require("../models/rental");
 
 /*Tested Successfully*/
 router.post("/rentcar", async (req, res) => {
-
+    
     req.body.transactionId = '0' + Math.floor(Math.random() * 100000000);
     try{
         const newRental = new Rental(req.body)

@@ -1,5 +1,28 @@
 const mongoose = require("mongoose");
-const { reviewSchema } = require("./review");
+
+const reviewSchema = mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    },
+    name: {
+        type: String,
+        required: true 
+    },
+    rating: {
+        type: Number,
+        required: true
+    },
+    comment: {
+        type: String, 
+        required: true
+    },
+},
+{
+    timestamps: true,
+}
+);
 
 const carSchema = mongoose.Schema({
     model: {
@@ -42,7 +65,7 @@ const carSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
-    numReviews: {
+    numberOfReviews: {
         type: Number,
         default: 0,
     },
@@ -54,7 +77,6 @@ const carSchema = mongoose.Schema({
     },
     reviews: [reviewSchema],
 },
-
 );
 
 const Car = mongoose.model("Car", carSchema);
