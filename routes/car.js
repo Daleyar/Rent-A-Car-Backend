@@ -61,7 +61,7 @@ router.get("/cars/:id", async (req, res) => {
 });
 
 /*Post Reviews*/
-/*Tested Successfully*/
+/*Tested Successfully & average rating calculates correctly*/
 router.post("/cars/:id/reviews", [auth], async (req, res) =>{
     try{
         const car = await Car.findById(req.params.id)
@@ -88,7 +88,7 @@ router.post("/cars/:id/reviews", [auth], async (req, res) =>{
       
         car.numberOfReviews = car.reviews.length
       
-        car.rating = car.reviews.reduce((acc, item) => item.rating + acc, 0) / car.reviews.length
+        car.rating = car.reviews.reduce((sum, car) => car.rating + sum, 0) / car.reviews.length
       
         await car.save()
         return res.send(car);
