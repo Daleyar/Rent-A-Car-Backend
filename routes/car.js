@@ -1,4 +1,5 @@
 const {Car} = require("../models/car");
+const auth = require("../middleware/auth");
 const express = require("express");
 const multer = require('multer');
 const router = express.Router();
@@ -14,6 +15,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage})
 
+/*POST new car*/
 /*Tested Successfully*/
 router.post("/car", upload.single('carImage'), async (req, res) => {
     try{
@@ -36,13 +38,63 @@ router.post("/car", upload.single('carImage'), async (req, res) => {
     }
 });
 
+/*GET all cars*/
+/*Tested Successfully*/
 router.get("/cars", async (req, res) => {
     try {
-      const cars = await Car.find();
-      return res.send(cars);
+        const cars = await Car.find();
+        return res.send(cars);
     }catch (error) {
         return res.status(500).send(`Internal Server Error: ${error}`);
     }
-  });
+});
+
+/*GET cars by ID*/
+/*Tested Successfully*/
+router.get("/cars/:id", async (req, res) => {
+    try {
+        const car = await Car.findById(req.params.id);
+        return res.send(car);
+    }catch (error) {
+        return res.status(500).send(`Internal Server Error: ${error}`);
+    }
+});
+
+/*Post Reviews*/
+/*Tested Successfully*/
+router.post("/cars/:id/reviews", [auth], async (req, res) =>{
+    try{
+        const car = await Car.findById(req.params.id)
+        if(!car) {
+            return res.status(400).send(`The car with id "${req.params.id}" does not exist.`);
+        }
+        
+        const alreadyReviewed = car.reviews.find(
+            (r) => r.user.toString() === req.user._id
+        )
+        
+        if (alreadyReviewed) {
+            return res.status(400).send('Car review already submitted')
+        }
+
+        const review = {
+            name: req.user.name,
+            rating: req.body.rating, 
+            comment: req.body.comment,
+            user: req.user._id,
+        }
+      
+        car.reviews.push(review)
+      
+        car.numberOfReviews = car.reviews.length
+      
+        car.rating = car.reviews.reduce((acc, item) => item.rating + acc, 0) / car.reviews.length
+      
+        await car.save()
+        return res.send(car);
+    }catch (error) {
+        return res.status(500).send(`Internal Server Error: ${error}`);
+    }
+});
 
 module.exports = router;
