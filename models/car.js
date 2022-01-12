@@ -76,6 +76,10 @@ const carSchema = mongoose.Schema({
         max: 1000
     },
     reviews: [reviewSchema],
+    zipcode: {
+        type: String,
+        required: true
+    }
 },
 );
 

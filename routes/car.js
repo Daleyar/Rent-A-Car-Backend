@@ -29,6 +29,7 @@ router.post("/car", upload.single('carImage'), async (req, res) => {
             transmission: req.body.transmission,
             vehicleFeatures: req.body.vehicleFeatures,
             dailyRentalRate: req.body.dailyRentalRate,
+            zipcode: req.body.zipcode,
         });
         await newCar.save();
         return res.send(newCar);
@@ -92,6 +93,14 @@ router.post("/cars/:id/reviews", [auth], async (req, res) =>{
       
         await car.save()
         return res.send(car);
+    }catch (error) {
+        return res.status(500).send(`Internal Server Error: ${error}`);
+    }
+});
+
+router.get(":path", async (req, res) => {
+    try {
+        res.download('./' + req.params.path);
     }catch (error) {
         return res.status(500).send(`Internal Server Error: ${error}`);
     }
