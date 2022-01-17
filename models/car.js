@@ -79,7 +79,11 @@ const carSchema = mongoose.Schema({
     zipcode: {
         type: String,
         required: true
-    }
+    },
+    rentalDates:[{
+        from: {type: String},
+        to: {type: String}
+    }],
 },
 );
 

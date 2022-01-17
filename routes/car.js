@@ -1,7 +1,7 @@
-const {Car} = require("../models/car");
-const auth = require("../middleware/auth");
 const express = require("express");
+const auth = require("../middleware/auth");
 const multer = require('multer');
+const {Car} = require("../models/car");
 const router = express.Router();
 
 const storage = multer.diskStorage({ 

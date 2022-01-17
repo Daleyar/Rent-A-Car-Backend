@@ -19,6 +19,9 @@ const rentalSchema = new mongoose.Schema({
         type: Number,
         default: 15
     },
+    totalDays: {
+        type: Number,
+    },
     rentalFee: {
         type: Number,
         min: 0
